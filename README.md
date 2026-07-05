@@ -101,8 +101,8 @@ python bot.py
 The bot uses **long polling** — no open ports or domain required.
 The SQLite database (`bot.db`) is created automatically on first launch.
 
-**Even simpler:** double-click **`run.bat`** (Windows) or run **`./deploy/run.sh`** (Linux/macOS) —
-they create the venv, install dependencies and start the bot for you.
+**Even simpler on Windows:** double-click **`run.bat`** — it creates the venv, installs
+dependencies and starts the bot for you.
 
 After it starts, send the bot `/start`, pick a language, then set your first goal with `/setgoal 1000`.
 
@@ -146,44 +146,23 @@ Leave it empty to simply skip the sticker.
 
 ## 🐳 Deployment
 
-### Option A — Docker (recommended)
-
-```bash
-cp .env.example .env   # fill in your values
-docker compose up -d --build
-```
-
-- The database is stored on the `bot_data` volume, so it **survives redeploys**.
-- Logs: `docker compose logs -f`
-- Stop: `docker compose down`
-
-### Option B — VPS with systemd (auto-start on boot)
-
-```bash
-cp .env.example .env   # fill in your values
-chmod +x deploy/deploy.sh
-./deploy/deploy.sh
-```
-
-The script creates a virtualenv, installs dependencies and registers a
-`luck1y-donate-bot` systemd service that restarts on failure and starts on boot.
-
-```bash
-sudo systemctl status luck1y-donate-bot     # check status
-sudo journalctl -u luck1y-donate-bot -f     # follow logs
-```
-
-### Option C — Railway / Render (cloud, a few clicks)
+### Railway (recommended, used in production)
 
 1. Push this repo to GitHub.
-2. **Railway:** New Project → *Deploy from GitHub repo*. Config is read from `railway.json`.
-   **Render:** New → *Blueprint*, pick the repo — `render.yaml` defines a worker service.
+2. Railway → New Project → *Deploy from GitHub repo*. It builds from the `Dockerfile`.
 3. Add the environment variables `BOT_TOKEN`, `ADMIN_ID`, `THANK_YOU_STICKER_ID`
    (do **not** commit your `.env`).
-4. Make sure it runs as a **worker** (polling, no web port).
+4. Attach a **Railway Volume** mounted at `/data` so the SQLite database
+   (`DB_PATH=/data/bot.db`, already set in the `Dockerfile`) survives redeploys.
+5. It runs as a **worker** — long polling, no web port needed.
 
-> 💡 For persistent data in the cloud, attach a volume/disk and point `DB_PATH` to it
-> (`render.yaml` already mounts a 1 GB disk at `/var/data`).
+### Docker (local / self-hosted)
+
+```bash
+cp .env.example .env   # fill in your values
+docker build -t donate-stars .
+docker run -d --env-file .env -v donate_data:/data donate-stars
+```
 
 ---
 
@@ -204,15 +183,8 @@ Stars-Donate/
 │   ├── profile.py         # my donations
 │   ├── refund.py          # donor-side refunds
 │   └── admin.py           # full admin panel
-├── deploy/
-│   ├── deploy.sh          # VPS installer (systemd)
-│   ├── run.sh             # simple Linux/macOS runner
-│   └── luck1y-donate-bot.service
-├── Dockerfile
-├── docker-compose.yml
-├── railway.json           # Railway config
-├── render.yaml            # Render blueprint
-├── Procfile               # generic worker process
+├── Dockerfile             # used by Railway to build the bot
+├── railway.json           # Railway deploy config (start command, restarts)
 ├── run.bat / run.ps1      # Windows launchers
 ├── requirements.txt
 └── .env.example
