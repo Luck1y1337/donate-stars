@@ -15,28 +15,28 @@
 
     <!-- stats bubble -->
     <rect x="14" y="104" width="316" height="470" rx="16" fill="#ffffff"/>
-    <text x="30" y="136" font-size="16" font-weight="700" fill="#0f1419">📊 Статистика</text>
+    <text x="30" y="136" font-size="16" font-weight="700" fill="#0f1419">📊 Statistics</text>
 
-    <text x="30" y="170" font-size="13.5" fill="#0f1419">🎯 Собрано <tspan font-weight="700">720⭐️</tspan> из <tspan font-weight="700">1000⭐️</tspan></text>
+    <text x="30" y="170" font-size="13.5" fill="#0f1419">🎯 Raised <tspan font-weight="700">720⭐️</tspan> of <tspan font-weight="700">1000⭐️</tspan></text>
     <!-- progress bar -->
     <rect x="30" y="182" width="286" height="16" rx="8" fill="#d9e0e6"/>
     <rect x="30" y="182" width="206" height="16" rx="8" fill="#46b358"/>
     <text x="322" y="195" font-size="12" font-weight="700" fill="#3a7d44" text-anchor="end">72%</text>
 
-    <text x="30" y="240" font-size="14" font-weight="700" fill="#0f1419">🏆 Топ донатеров</text>
+    <text x="30" y="240" font-size="14" font-weight="700" fill="#0f1419">🏆 Top donors</text>
     <text x="30" y="266" font-size="13.5" fill="#0f1419">🥇 @alice — <tspan font-weight="700">300⭐️</tspan></text>
     <text x="30" y="288" font-size="13.5" fill="#0f1419">🥈 @bobby — <tspan font-weight="700">250⭐️</tspan></text>
     <text x="30" y="310" font-size="13.5" fill="#0f1419">🥉 @carol — <tspan font-weight="700">170⭐️</tspan></text>
 
-    <text x="30" y="352" font-size="14" font-weight="700" fill="#0f1419">🕐 Последние донаты</text>
-    <text x="30" y="378" font-size="13.5" fill="#0f1419">@alice — <tspan font-weight="700">100⭐️</tspan> (05.07 21:14)</text>
-    <text x="30" y="400" font-size="13" fill="#5b6b78" font-style="italic">💬 Спасибо за бота! 💛</text>
-    <text x="30" y="426" font-size="13.5" fill="#0f1419">@bobby — <tspan font-weight="700">50⭐️</tspan> (05.07 20:03)</text>
-    <text x="30" y="452" font-size="13.5" fill="#0f1419">@carol — <tspan font-weight="700">70⭐️</tspan> (05.07 18:47)</text>
+    <text x="30" y="352" font-size="14" font-weight="700" fill="#0f1419">🕐 Recent donations</text>
+    <text x="30" y="378" font-size="13.5" fill="#0f1419">@alice — <tspan font-weight="700">100⭐️</tspan> (Jul 5, 21:14)</text>
+    <text x="30" y="400" font-size="13" fill="#5b6b78" font-style="italic">💬 Thanks for the bot! 💛</text>
+    <text x="30" y="426" font-size="13.5" fill="#0f1419">@bobby — <tspan font-weight="700">50⭐️</tspan> (Jul 5, 20:03)</text>
+    <text x="30" y="452" font-size="13.5" fill="#0f1419">@carol — <tspan font-weight="700">70⭐️</tspan> (Jul 5, 18:47)</text>
     <text x="30" y="474" font-size="13" fill="#5b6b78" font-style="italic">💬 Keep it up ✨</text>
-    <text x="30" y="500" font-size="13.5" fill="#0f1419">@dan — <tspan font-weight="700">15⭐️</tspan> (04.07 12:20)</text>
-    <text x="30" y="522" font-size="13.5" fill="#0f1419">@erik — <tspan font-weight="700">250⭐️</tspan> (04.07 09:05)</text>
-    <text x="30" y="548" font-size="13" fill="#5b6b78" font-style="italic">💬 Респект разработчику</text>
+    <text x="30" y="500" font-size="13.5" fill="#0f1419">@dan — <tspan font-weight="700">15⭐️</tspan> (Jul 4, 12:20)</text>
+    <text x="30" y="522" font-size="13.5" fill="#0f1419">@erik — <tspan font-weight="700">250⭐️</tspan> (Jul 4, 09:05)</text>
+    <text x="30" y="548" font-size="13" fill="#5b6b78" font-style="italic">💬 Respect to the developer</text>
     <text x="312" y="566" font-size="10" fill="#8a97a3" text-anchor="end">9:41</text>
   </g>
 </svg>

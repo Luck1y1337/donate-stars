@@ -18,30 +18,30 @@
     <!-- incoming bubble -->
     <rect x="15" y="105" width="304" height="163" rx="16" fill="#000000" fill-opacity="0.05"/>
     <rect x="14" y="104" width="304" height="162" rx="16" fill="#ffffff"/>
-    <text x="30" y="134" font-size="15" font-weight="700" fill="#0f1419">👋 Привет, Islom!</text>
-    <text x="30" y="164" font-size="13.5" fill="#0f1419">Это бот поддержки <tspan font-weight="700">@utofi</tspan> 💛</text>
-    <text x="30" y="187" font-size="13.5" fill="#0f1419">Здесь можно поддержать разработчика</text>
-    <text x="30" y="206" font-size="13.5" fill="#0f1419">звёздами Telegram ⭐️</text>
-    <text x="30" y="240" font-size="13.5" fill="#0f1419">Выберите действие в меню ниже 👇</text>
+    <text x="30" y="134" font-size="15" font-weight="700" fill="#0f1419">👋 Hi, Islom!</text>
+    <text x="30" y="164" font-size="13.5" fill="#0f1419">This is the support bot for <tspan font-weight="700">@utofi</tspan> 💛</text>
+    <text x="30" y="187" font-size="13.5" fill="#0f1419">Support the developer with</text>
+    <text x="30" y="206" font-size="13.5" fill="#0f1419">Telegram Stars ⭐️</text>
+    <text x="30" y="240" font-size="13.5" fill="#0f1419">Pick an option from the menu below 👇</text>
     <text x="300" y="256" font-size="10" fill="#8a97a3" text-anchor="end">9:41</text>
 
     <!-- reply keyboard -->
     <rect x="0" y="556" width="360" height="164" fill="#cfd6dc"/>
     <g font-size="13.5" fill="#0f1419" text-anchor="middle" font-weight="600">
       <rect x="14" y="568" width="160" height="34" rx="8" fill="#ffffff"/>
-      <text x="94" y="590">💳 Задонатить</text>
+      <text x="94" y="590">💳 Donate</text>
       <rect x="186" y="568" width="160" height="34" rx="8" fill="#ffffff"/>
-      <text x="266" y="590">📊 Статистика</text>
+      <text x="266" y="590">📊 Stats</text>
 
       <rect x="14" y="610" width="160" height="34" rx="8" fill="#ffffff"/>
-      <text x="94" y="632">👤 Мои донаты</text>
+      <text x="94" y="632">👤 My donations</text>
       <rect x="186" y="610" width="160" height="34" rx="8" fill="#ffffff"/>
-      <text x="266" y="632">🌐 Язык</text>
+      <text x="266" y="632">🌐 Language</text>
 
       <rect x="14" y="652" width="160" height="34" rx="8" fill="#ffffff"/>
-      <text x="94" y="674">ℹ️ Помощь</text>
+      <text x="94" y="674">ℹ️ Help</text>
       <rect x="186" y="652" width="160" height="34" rx="8" fill="#ffffff"/>
-      <text x="266" y="674">⚙️ Админка</text>
+      <text x="266" y="674">⚙️ Admin</text>
     </g>
   </g>
 </svg>

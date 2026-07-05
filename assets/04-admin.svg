@@ -15,29 +15,29 @@
 
     <!-- header bubble -->
     <rect x="14" y="112" width="220" height="70" rx="16" fill="#ffffff"/>
-    <text x="30" y="140" font-size="15" font-weight="700" fill="#0f1419">⚙️ Админ-панель</text>
-    <text x="30" y="164" font-size="13.5" fill="#0f1419">Выберите раздел:</text>
+    <text x="30" y="140" font-size="15" font-weight="700" fill="#0f1419">⚙️ Admin panel</text>
+    <text x="30" y="164" font-size="13.5" fill="#0f1419">Choose a section:</text>
 
     <!-- inline keyboard 2 cols -->
     <g font-size="14" text-anchor="middle" font-weight="600" fill="#0f1419">
       <rect x="14" y="196" width="160" height="42" rx="10" fill="#ffffff"/>
-      <text x="94" y="222">📊 Статистика</text>
+      <text x="94" y="222">📊 Statistics</text>
       <rect x="186" y="196" width="160" height="42" rx="10" fill="#ffffff"/>
-      <text x="266" y="222">🎯 Цель</text>
+      <text x="266" y="222">🎯 Goal</text>
 
       <rect x="14" y="246" width="160" height="42" rx="10" fill="#ffffff"/>
-      <text x="94" y="272">💸 Донаты</text>
+      <text x="94" y="272">💸 Donations</text>
       <rect x="186" y="246" width="160" height="42" rx="10" fill="#ffffff"/>
-      <text x="266" y="272">🔍 Поиск</text>
+      <text x="266" y="272">🔍 Search</text>
 
       <rect x="14" y="296" width="160" height="42" rx="10" fill="#ffffff"/>
-      <text x="94" y="322">📢 Рассылка</text>
+      <text x="94" y="322">📢 Broadcast</text>
       <rect x="186" y="296" width="160" height="42" rx="10" fill="#ffffff"/>
-      <text x="266" y="322">📤 Экспорт CSV</text>
+      <text x="266" y="322">📤 Export CSV</text>
 
       <rect x="14" y="346" width="332" height="42" rx="10" fill="#ffffff"/>
-      <text x="180" y="372" fill="#e0533d">✖️ Закрыть</text>
+      <text x="180" y="372" fill="#e0533d">✖️ Close</text>
     </g>
-    <text x="30" y="430" font-size="12" fill="#7d8b99">🔒 Видно только владельцу (ADMIN_ID)</text>
+    <text x="30" y="430" font-size="12" fill="#7d8b99">🔒 Visible only to the owner (ADMIN_ID)</text>
   </g>
 </svg>

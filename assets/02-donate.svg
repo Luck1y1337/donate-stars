@@ -15,8 +15,8 @@
 
     <!-- message header bubble -->
     <rect x="14" y="112" width="250" height="70" rx="16" fill="#ffffff"/>
-    <text x="30" y="140" font-size="15" font-weight="700" fill="#0f1419">💳 Сумма доната</text>
-    <text x="30" y="164" font-size="13.5" fill="#0f1419">Сколько звёзд отправить? ⭐️</text>
+    <text x="30" y="140" font-size="15" font-weight="700" fill="#0f1419">💳 Donation amount</text>
+    <text x="30" y="164" font-size="13.5" fill="#0f1419">How many Stars to send? ⭐️</text>
 
     <!-- inline keyboard -->
     <g font-size="14" text-anchor="middle" font-weight="600">
@@ -33,10 +33,10 @@
       <text x="266" y="272" fill="#0f1419">500 ⭐️</text>
 
       <rect x="14" y="296" width="332" height="42" rx="10" fill="#ffffff"/>
-      <text x="180" y="322" fill="#3390ec">✏️ Своя сумма</text>
+      <text x="180" y="322" fill="#3390ec">✏️ Custom amount</text>
 
       <rect x="14" y="346" width="332" height="42" rx="10" fill="#ffffff"/>
-      <text x="180" y="372" fill="#8a97a3">⬅️ Назад</text>
+      <text x="180" y="372" fill="#8a97a3">⬅️ Back</text>
     </g>
 
     <!-- input bar -->
