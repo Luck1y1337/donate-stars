@@ -1,0 +1,41 @@
+import asyncio
+import logging
+
+from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
+
+import database
+from config import BOT_TOKEN
+from handlers import admin, donate, profile, refund, start, stats
+
+
+async def main():
+    """Точка входа: инициализирует базу и запускает polling."""
+    logging.basicConfig(level=logging.INFO)
+
+    if BOT_TOKEN == "":
+        print("Ошибка: BOT_TOKEN не задан. Заполните файл .env.")
+        return
+
+    await database.init_db()
+
+    bot = Bot(
+        token=BOT_TOKEN,
+        default=DefaultBotProperties(parse_mode=ParseMode.HTML),
+    )
+    dp = Dispatcher()
+
+    dp.include_router(admin.router)
+    dp.include_router(start.router)
+    dp.include_router(donate.router)
+    dp.include_router(stats.router)
+    dp.include_router(profile.router)
+    dp.include_router(refund.router)
+
+    await bot.delete_webhook(drop_pending_updates=True)
+    await dp.start_polling(bot)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

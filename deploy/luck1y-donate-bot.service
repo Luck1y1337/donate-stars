@@ -1,0 +1,17 @@
+[Unit]
+Description=Luck1y Donate Bot (Telegram Stars)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Replace with the user and absolute project path on your server:
+User=REPLACE_USER
+WorkingDirectory=REPLACE_DIR
+ExecStart=REPLACE_DIR/venv/bin/python bot.py
+Restart=always
+RestartSec=5
+EnvironmentFile=REPLACE_DIR/.env
+
+[Install]
+WantedBy=multi-user.target
