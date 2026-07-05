@@ -27,7 +27,7 @@ Bot username: **[@luck1y_support_bot](https://t.me/luck1y_support_bot)** · Deve
 <td align="center"><img src="assets/04-admin.svg" width="200" alt="Admin panel"><br><sub><b>Admin panel</b></sub></td>
 </tr>
 </table>
-<sub><i>UI previews — rendered mockups of the real bot screens (ru locale).</i></sub>
+<sub><i>UI previews — rendered mockups of the real bot screens (en locale).</i></sub>
 </div>
 
 ---
@@ -43,7 +43,7 @@ Bot username: **[@luck1y_support_bot](https://t.me/luck1y_support_bot)** · Deve
 - 🌐 **Three languages** — Russian, Uzbek and English, switchable at any moment.
 - ⚙️ **Full admin panel** (see below) — stats, goal management, donation browser, broadcast, CSV export and search.
 - 🎨 **Beautiful UI** — HTML formatting (bold/italic), tasteful emoji, inline navigation with “Back” on every step.
-- 🚀 **Deploy anywhere** — Docker, VPS + systemd, Railway/Render, or locally on Windows.
+- 🚀 **Easy deployment** — Docker/Railway, or locally on Windows.
 
 ---
 
