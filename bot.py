@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import sys
 
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
@@ -12,7 +13,13 @@ from handlers import admin, donate, profile, refund, start, stats
 
 async def main():
     """Точка входа: инициализирует базу и запускает polling."""
-    logging.basicConfig(level=logging.INFO)
+    # Explicit stdout stream: hosting dashboards (e.g. Railway) color log
+    # lines by stream, not by level, so stderr shows everything as red.
+    logging.basicConfig(
+        level=logging.INFO,
+        stream=sys.stdout,
+        format="%(asctime)s %(levelname)s:%(name)s:%(message)s",
+    )
 
     if BOT_TOKEN == "":
         print("Ошибка: BOT_TOKEN не задан. Заполните файл .env.")
