@@ -1,115 +1,129 @@
 """
-Generates square avatar options (512x512 PNG) for the bot.
-Upload the one you like to @BotFather:  /setuserpic
+Generates a single professional square avatar (512x512 PNG) for the bot.
+Upload it to @BotFather:  /setuserpic
 
 Usage:
     venv/Scripts/python.exe scripts/make_avatar.py
 """
 import os
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT_DIR = os.path.join(os.path.dirname(HERE), "assets")
-EMOJI_FONT = r"C:\Windows\Fonts\seguiemj.ttf"
+BOLD_FONT = r"C:\Windows\Fonts\segoeuib.ttf"
 
 SIZE = 512
 
+# Violet gradient close to Telegram's own default avatar palette.
+TOP_LEFT_COLOR = (154, 122, 245)
+BOTTOM_RIGHT_COLOR = (95, 74, 209)
 
-def vertical_gradient(top_color, bottom_color):
-    """Создаёт вертикальный градиент SIZE x SIZE."""
-    image = Image.new("RGB", (SIZE, SIZE), top_color)
-    draw = ImageDraw.Draw(image)
+
+def diagonal_gradient(top_left, bottom_right):
+    """Строит плавный диагональный градиент SIZE x SIZE."""
+    image = Image.new("RGB", (SIZE, SIZE))
+    pixels = image.load()
+    max_distance = (SIZE - 1) + (SIZE - 1)
     for y in range(SIZE):
-        factor = y / (SIZE - 1)
-        r = int(top_color[0] + (bottom_color[0] - top_color[0]) * factor)
-        g = int(top_color[1] + (bottom_color[1] - top_color[1]) * factor)
-        b = int(top_color[2] + (bottom_color[2] - top_color[2]) * factor)
-        draw.line([(0, y), (SIZE, y)], fill=(r, g, b))
+        for x in range(SIZE):
+            factor = (x + y) / max_distance
+            r = int(top_left[0] + (bottom_right[0] - top_left[0]) * factor)
+            g = int(top_left[1] + (bottom_right[1] - top_left[1]) * factor)
+            b = int(top_left[2] + (bottom_right[2] - top_left[2]) * factor)
+            pixels[x, y] = (r, g, b)
     return image
 
 
-def draw_emoji(image, emoji, size, center_x, center_y):
-    """Рисует цветной эмодзи по центру указанной точки."""
-    font = ImageFont.truetype(EMOJI_FONT, size)
-    draw = ImageDraw.Draw(image)
-    draw.text(
-        (center_x, center_y),
-        emoji,
-        font=font,
-        embedded_color=True,
-        anchor="mm",
+def add_soft_glow(image, center, radius, strength):
+    """Добавляет мягкое свечение позади монограммы для эффекта глубины."""
+    glow_layer = Image.new("L", (SIZE, SIZE), 0)
+    draw = ImageDraw.Draw(glow_layer)
+    draw.ellipse(
+        [
+            center[0] - radius,
+            center[1] - radius,
+            center[0] + radius,
+            center[1] + radius,
+        ],
+        fill=strength,
     )
+    glow_layer = glow_layer.filter(ImageFilter.GaussianBlur(radius // 2))
+
+    white_layer = Image.new("RGB", (SIZE, SIZE), (255, 255, 255))
+    return Image.composite(white_layer, image, glow_layer)
 
 
-def draw_caption(image, text, color):
-    """Подписывает низ аватарки жирным текстом."""
-    try:
-        font = ImageFont.truetype(r"C:\Windows\Fonts\segoeuib.ttf", 54)
-    except OSError:
-        font = ImageFont.load_default()
-    draw = ImageDraw.Draw(image)
-    draw.text(
-        (SIZE // 2, SIZE - 70),
+def draw_monogram(image, text):
+    """Рисует монограмму с мягкой тенью для глубины."""
+    font = ImageFont.truetype(BOLD_FONT, 220)
+    draw = ImageDraw.Draw(image, "RGBA")
+
+    center_x = SIZE // 2
+    center_y = SIZE // 2 - 6
+
+    # Soft drop shadow.
+    shadow_layer = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
+    shadow_draw = ImageDraw.Draw(shadow_layer)
+    shadow_draw.text(
+        (center_x, center_y + 10),
         text,
         font=font,
-        fill=color,
+        fill=(30, 20, 70, 130),
         anchor="mm",
     )
+    shadow_layer = shadow_layer.filter(ImageFilter.GaussianBlur(8))
+    image.paste(shadow_layer, (0, 0), shadow_layer)
 
-
-def build_clover():
-    """Фиолетовый градиент + зелёный клевер (высокий контраст)."""
-    image = vertical_gradient((139, 108, 255), (124, 77, 179))
-    draw_emoji(image, "🍀", 300, SIZE // 2, SIZE // 2 - 10)
-    return image
-
-
-def build_star():
-    """Фиолетовый градиент + звезда (перекликается с текущей аватаркой)."""
-    image = vertical_gradient((139, 108, 255), (124, 77, 179))
-    draw_emoji(image, "⭐", 300, SIZE // 2, SIZE // 2)
-    return image
-
-
-def build_clover_star():
-    """Зелёный градиент + клевер и звёздочка-бейдж."""
-    image = vertical_gradient((80, 200, 140), (20, 140, 120))
-    draw_emoji(image, "🍀", 250, SIZE // 2 - 30, SIZE // 2 - 40)
-    draw_emoji(image, "⭐", 150, SIZE // 2 + 120, SIZE // 2 + 110)
-    return image
-
-
-def build_monogram():
-    """Фиолетовый градиент + монограмма SL и клевер."""
-    image = vertical_gradient((150, 120, 255), (110, 90, 210))
-    try:
-        font = ImageFont.truetype(r"C:\Windows\Fonts\segoeuib.ttf", 210)
-    except OSError:
-        font = ImageFont.load_default()
-    draw = ImageDraw.Draw(image)
     draw.text(
-        (SIZE // 2, SIZE // 2 - 20),
-        "SL",
+        (center_x, center_y),
+        text,
         font=font,
-        fill=(255, 255, 255),
+        fill=(255, 255, 255, 255),
         anchor="mm",
     )
-    draw_emoji(image, "🍀", 120, SIZE // 2 + 130, SIZE // 2 + 140)
-    return image
+
+
+def add_bottom_vignette(image):
+    """Слегка затемняет нижний край для ощущения глубины и премиальности."""
+    overlay = Image.new("L", (SIZE, SIZE), 0)
+    draw = ImageDraw.Draw(overlay)
+    for y in range(SIZE):
+        if y > SIZE * 0.6:
+            factor = (y - SIZE * 0.6) / (SIZE * 0.4)
+            alpha = int(60 * factor)
+            draw.line([(0, y), (SIZE, y)], fill=alpha)
+    black_layer = Image.new("RGB", (SIZE, SIZE), (0, 0, 0))
+    return Image.composite(black_layer, image, overlay)
+
+
+def build_avatar():
+    """Собирает финальную профессиональную аватарку."""
+    image = diagonal_gradient(TOP_LEFT_COLOR, BOTTOM_RIGHT_COLOR)
+    image = add_soft_glow(image, (SIZE // 2, SIZE // 2 - 6), 190, 55)
+    image = add_bottom_vignette(image)
+    image = image.convert("RGBA")
+    draw_monogram(image, "SL")
+    return image.convert("RGB")
 
 
 def main():
-    variants = {
-        "avatar-clover.png": build_clover(),
-        "avatar-star.png": build_star(),
-        "avatar-clover-star.png": build_clover_star(),
-        "avatar-monogram.png": build_monogram(),
-    }
-    for name, image in variants.items():
+    old_variants = [
+        "avatar-clover.png",
+        "avatar-star.png",
+        "avatar-clover-star.png",
+        "avatar-monogram.png",
+    ]
+    for name in old_variants:
         path = os.path.join(OUT_DIR, name)
-        image.save(path, "PNG")
-        print("saved", path)
+        if os.path.exists(path):
+            os.remove(path)
+            print("removed old variant:", path)
+
+    avatar = build_avatar()
+    out_path = os.path.join(OUT_DIR, "avatar.png")
+    avatar.save(out_path, "PNG")
+    print("saved", out_path)
 
 
 if __name__ == "__main__":
