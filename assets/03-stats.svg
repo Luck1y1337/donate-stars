@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 720" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <clipPath id="scr"><rect x="0" y="0" width="360" height="720" rx="28"/></clipPath>
+  <g clip-path="url(#scr)">
+    <rect x="0" y="0" width="360" height="720" fill="#e3ebf2"/>
+    <rect x="0" y="0" width="360" height="28" fill="#ffffff"/>
+    <text x="20" y="19" font-size="13" font-weight="700" fill="#0f1419">9:41</text>
+    <rect x="316" y="10" width="22" height="10" rx="2" fill="none" stroke="#0f1419" stroke-width="1.2"/>
+    <rect x="318" y="12" width="14" height="6" rx="1" fill="#0f1419"/>
+    <rect x="0" y="28" width="360" height="56" fill="#ffffff"/>
+    <line x1="0" y1="84" x2="360" y2="84" stroke="#e6e9ec" stroke-width="1"/>
+    <circle cx="52" cy="56" r="20" fill="#46b358"/>
+    <text x="52" y="63" font-size="20" text-anchor="middle">🍀</text>
+    <text x="84" y="52" font-size="16" font-weight="700" fill="#0f1419">Support Luck1y</text>
+    <text x="84" y="70" font-size="12" fill="#8a97a3">bot</text>
+
+    <!-- stats bubble -->
+    <rect x="14" y="104" width="316" height="470" rx="16" fill="#ffffff"/>
+    <text x="30" y="136" font-size="16" font-weight="700" fill="#0f1419">📊 Статистика</text>
+
+    <text x="30" y="170" font-size="13.5" fill="#0f1419">🎯 Собрано <tspan font-weight="700">720⭐️</tspan> из <tspan font-weight="700">1000⭐️</tspan></text>
+    <!-- progress bar -->
+    <rect x="30" y="182" width="286" height="16" rx="8" fill="#d9e0e6"/>
+    <rect x="30" y="182" width="206" height="16" rx="8" fill="#46b358"/>
+    <text x="322" y="195" font-size="12" font-weight="700" fill="#3a7d44" text-anchor="end">72%</text>
+
+    <text x="30" y="240" font-size="14" font-weight="700" fill="#0f1419">🏆 Топ донатеров</text>
+    <text x="30" y="266" font-size="13.5" fill="#0f1419">🥇 @alice — <tspan font-weight="700">300⭐️</tspan></text>
+    <text x="30" y="288" font-size="13.5" fill="#0f1419">🥈 @bobby — <tspan font-weight="700">250⭐️</tspan></text>
+    <text x="30" y="310" font-size="13.5" fill="#0f1419">🥉 @carol — <tspan font-weight="700">170⭐️</tspan></text>
+
+    <text x="30" y="352" font-size="14" font-weight="700" fill="#0f1419">🕐 Последние донаты</text>
+    <text x="30" y="378" font-size="13.5" fill="#0f1419">@alice — <tspan font-weight="700">100⭐️</tspan> (05.07 21:14)</text>
+    <text x="30" y="400" font-size="13" fill="#5b6b78" font-style="italic">💬 Спасибо за бота! 💛</text>
+    <text x="30" y="426" font-size="13.5" fill="#0f1419">@bobby — <tspan font-weight="700">50⭐️</tspan> (05.07 20:03)</text>
+    <text x="30" y="452" font-size="13.5" fill="#0f1419">@carol — <tspan font-weight="700">70⭐️</tspan> (05.07 18:47)</text>
+    <text x="30" y="474" font-size="13" fill="#5b6b78" font-style="italic">💬 Keep it up ✨</text>
+    <text x="30" y="500" font-size="13.5" fill="#0f1419">@dan — <tspan font-weight="700">15⭐️</tspan> (04.07 12:20)</text>
+    <text x="30" y="522" font-size="13.5" fill="#0f1419">@erik — <tspan font-weight="700">250⭐️</tspan> (04.07 09:05)</text>
+    <text x="30" y="548" font-size="13" fill="#5b6b78" font-style="italic">💬 Респект разработчику</text>
+    <text x="312" y="566" font-size="10" fill="#8a97a3" text-anchor="end">9:41</text>
+  </g>
+</svg>

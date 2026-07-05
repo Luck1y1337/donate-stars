@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 720" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <clipPath id="scr"><rect x="0" y="0" width="360" height="720" rx="28"/></clipPath>
+  <g clip-path="url(#scr)">
+    <rect x="0" y="0" width="360" height="720" fill="#e3ebf2"/>
+    <rect x="0" y="0" width="360" height="28" fill="#ffffff"/>
+    <text x="20" y="19" font-size="13" font-weight="700" fill="#0f1419">9:41</text>
+    <rect x="316" y="10" width="22" height="10" rx="2" fill="none" stroke="#0f1419" stroke-width="1.2"/>
+    <rect x="318" y="12" width="14" height="6" rx="1" fill="#0f1419"/>
+    <rect x="0" y="28" width="360" height="56" fill="#ffffff"/>
+    <line x1="0" y1="84" x2="360" y2="84" stroke="#e6e9ec" stroke-width="1"/>
+    <circle cx="52" cy="56" r="20" fill="#46b358"/>
+    <text x="52" y="63" font-size="20" text-anchor="middle">🍀</text>
+    <text x="84" y="52" font-size="16" font-weight="700" fill="#0f1419">Support Luck1y</text>
+    <text x="84" y="70" font-size="12" fill="#8a97a3">bot</text>
+
+    <!-- header bubble -->
+    <rect x="14" y="112" width="220" height="70" rx="16" fill="#ffffff"/>
+    <text x="30" y="140" font-size="15" font-weight="700" fill="#0f1419">⚙️ Админ-панель</text>
+    <text x="30" y="164" font-size="13.5" fill="#0f1419">Выберите раздел:</text>
+
+    <!-- inline keyboard 2 cols -->
+    <g font-size="14" text-anchor="middle" font-weight="600" fill="#0f1419">
+      <rect x="14" y="196" width="160" height="42" rx="10" fill="#ffffff"/>
+      <text x="94" y="222">📊 Статистика</text>
+      <rect x="186" y="196" width="160" height="42" rx="10" fill="#ffffff"/>
+      <text x="266" y="222">🎯 Цель</text>
+
+      <rect x="14" y="246" width="160" height="42" rx="10" fill="#ffffff"/>
+      <text x="94" y="272">💸 Донаты</text>
+      <rect x="186" y="246" width="160" height="42" rx="10" fill="#ffffff"/>
+      <text x="266" y="272">🔍 Поиск</text>
+
+      <rect x="14" y="296" width="160" height="42" rx="10" fill="#ffffff"/>
+      <text x="94" y="322">📢 Рассылка</text>
+      <rect x="186" y="296" width="160" height="42" rx="10" fill="#ffffff"/>
+      <text x="266" y="322">📤 Экспорт CSV</text>
+
+      <rect x="14" y="346" width="332" height="42" rx="10" fill="#ffffff"/>
+      <text x="180" y="372" fill="#e0533d">✖️ Закрыть</text>
+    </g>
+    <text x="30" y="430" font-size="12" fill="#7d8b99">🔒 Видно только владельцу (ADMIN_ID)</text>
+  </g>
+</svg>

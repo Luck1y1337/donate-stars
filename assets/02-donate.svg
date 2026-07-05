@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 720" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <clipPath id="scr"><rect x="0" y="0" width="360" height="720" rx="28"/></clipPath>
+  <g clip-path="url(#scr)">
+    <rect x="0" y="0" width="360" height="720" fill="#e3ebf2"/>
+    <rect x="0" y="0" width="360" height="28" fill="#ffffff"/>
+    <text x="20" y="19" font-size="13" font-weight="700" fill="#0f1419">9:41</text>
+    <rect x="316" y="10" width="22" height="10" rx="2" fill="none" stroke="#0f1419" stroke-width="1.2"/>
+    <rect x="318" y="12" width="14" height="6" rx="1" fill="#0f1419"/>
+    <rect x="0" y="28" width="360" height="56" fill="#ffffff"/>
+    <line x1="0" y1="84" x2="360" y2="84" stroke="#e6e9ec" stroke-width="1"/>
+    <circle cx="52" cy="56" r="20" fill="#46b358"/>
+    <text x="52" y="63" font-size="20" text-anchor="middle">🍀</text>
+    <text x="84" y="52" font-size="16" font-weight="700" fill="#0f1419">Support Luck1y</text>
+    <text x="84" y="70" font-size="12" fill="#8a97a3">bot</text>
+
+    <!-- message header bubble -->
+    <rect x="14" y="112" width="250" height="70" rx="16" fill="#ffffff"/>
+    <text x="30" y="140" font-size="15" font-weight="700" fill="#0f1419">💳 Сумма доната</text>
+    <text x="30" y="164" font-size="13.5" fill="#0f1419">Сколько звёзд отправить? ⭐️</text>
+
+    <!-- inline keyboard -->
+    <g font-size="14" text-anchor="middle" font-weight="600">
+      <rect x="14" y="196" width="104" height="42" rx="10" fill="#ffffff"/>
+      <text x="66" y="222" fill="#0f1419">15 ⭐️</text>
+      <rect x="128" y="196" width="104" height="42" rx="10" fill="#ffffff"/>
+      <text x="180" y="222" fill="#0f1419">50 ⭐️</text>
+      <rect x="242" y="196" width="104" height="42" rx="10" fill="#ffffff"/>
+      <text x="294" y="222" fill="#0f1419">100 ⭐️</text>
+
+      <rect x="14" y="246" width="160" height="42" rx="10" fill="#ffffff"/>
+      <text x="94" y="272" fill="#0f1419">250 ⭐️</text>
+      <rect x="186" y="246" width="160" height="42" rx="10" fill="#ffffff"/>
+      <text x="266" y="272" fill="#0f1419">500 ⭐️</text>
+
+      <rect x="14" y="296" width="332" height="42" rx="10" fill="#ffffff"/>
+      <text x="180" y="322" fill="#3390ec">✏️ Своя сумма</text>
+
+      <rect x="14" y="346" width="332" height="42" rx="10" fill="#ffffff"/>
+      <text x="180" y="372" fill="#8a97a3">⬅️ Назад</text>
+    </g>
+
+    <!-- input bar -->
+    <rect x="0" y="668" width="360" height="52" fill="#ffffff"/>
+    <line x1="0" y1="668" x2="360" y2="668" stroke="#e6e9ec" stroke-width="1"/>
+    <rect x="14" y="680" width="300" height="30" rx="15" fill="#eef1f4"/>
+    <text x="28" y="700" font-size="13" fill="#9aa6b1">Message</text>
+    <circle cx="336" cy="695" r="16" fill="#46b358"/>
+    <text x="336" y="700" font-size="14" text-anchor="middle" fill="#ffffff">➤</text>
+  </g>
+</svg>

@@ -16,6 +16,22 @@ Bot username: **[@luck1y_support_bot](https://t.me/luck1y_support_bot)** · Deve
 
 ---
 
+## 📸 Screens
+
+<div align="center">
+<table>
+<tr>
+<td align="center"><img src="assets/01-welcome.svg" width="200" alt="Welcome & main menu"><br><sub><b>Welcome & menu</b></sub></td>
+<td align="center"><img src="assets/02-donate.svg" width="200" alt="Donation amount"><br><sub><b>Donation flow</b></sub></td>
+<td align="center"><img src="assets/03-stats.svg" width="200" alt="Statistics"><br><sub><b>Public stats</b></sub></td>
+<td align="center"><img src="assets/04-admin.svg" width="200" alt="Admin panel"><br><sub><b>Admin panel</b></sub></td>
+</tr>
+</table>
+<sub><i>UI previews — rendered mockups of the real bot screens (ru locale).</i></sub>
+</div>
+
+---
+
 ## ✨ Features
 
 - 💳 **Donations in Telegram Stars** — preset amounts (15 / 50 / 100 / 250 / 500 ⭐️) or any custom value.
