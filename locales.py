@@ -78,7 +78,8 @@ TEXTS = {
             "💳 <b>Задонатить</b> — поддержать @utofi звёздами Telegram\n"
             "📊 <b>Статистика</b> — прогресс цели, топ и последние донаты\n"
             "👤 <b>Мои донаты</b> — история и возврат в течение 24 часов\n"
-            "🌐 <b>Язык</b> — сменить язык бота\n\n"
+            "🌐 <b>Язык</b> — сменить язык бота\n"
+            "📩 <b>Написать разработчику</b> — задать вопрос или предложение\n\n"
             "💛 Разработчик: @utofi"
         ),
         "adm_new_donation_title": "🎉 <b>Новый донат #{id}</b>",
@@ -163,6 +164,50 @@ TEXTS = {
         "adm_setgoal_usage": "ℹ️ Использование: <code>/setgoal &lt;число&gt;</code>",
         "adm_setgoal_positive": "⚠️ Цель должна быть больше нуля.",
         "adm_refund_usage": "ℹ️ Использование: <code>/refund &lt;id&gt;</code>",
+        "btn_contact": "📩 Написать разработчику",
+        "contact_enter_message": (
+            "📩 Напишите сообщение (текст, фото, голосовое, видео, "
+            "документ или стикер), и я передам его разработчику."
+        ),
+        "contact_cancel": "❌ Отмена",
+        "contact_cancelled": "Отменено.",
+        "contact_sent_confirmation": (
+            "✅ Сообщение отправлено разработчику. Обычно ответ приходит "
+            "в течение суток."
+        ),
+        "contact_cooldown": (
+            "⏳ Пожалуйста, подождите {seconds} сек. перед отправкой "
+            "следующего сообщения."
+        ),
+        "contact_blocked": "🚫 К сожалению, вы не можете воспользоваться этой функцией.",
+        "contact_unsupported_type": (
+            "⚠️ Этот тип сообщений не поддерживается. Пожалуйста, отправьте "
+            "текст, фото, голосовое, видео, документ или стикер."
+        ),
+        "contact_header_admin_named": (
+            "📩 Новое сообщение от @{username} (id <code>{user_id}</code>)"
+        ),
+        "contact_header_admin_noname": (
+            "📩 Новое сообщение от пользователя без username "
+            "(id <code>{user_id}</code>)"
+        ),
+        "contact_btn_reply": "↩️ Ответить",
+        "contact_btn_block": "🚫 Заблокировать",
+        "contact_reply_enter": (
+            "✍️ Отправьте сообщение (текст, фото, голосовое, видео, "
+            "документ или стикер) — оно будет переслано пользователю."
+        ),
+        "contact_reply_sent": "✅ Ответ отправлен пользователю.",
+        "contact_reply_failed": (
+            "⚠️ Не удалось отправить сообщение пользователю "
+            "(возможно, он заблокировал бота)."
+        ),
+        "contact_header_user_reply": "💬 Сообщение от разработчика:",
+        "contact_blocked_notice": "🚫 Пользователь заблокирован",
+        "contact_block_done": "Пользователь заблокирован.",
+        "adm_unblock_usage": "ℹ️ Использование: <code>/unblock &lt;user_id&gt;</code>",
+        "adm_unblock_done": "✅ Пользователь <code>{user_id}</code> разблокирован.",
+        "adm_unblock_not_found": "⚠️ Пользователь с id <code>{user_id}</code> не найден.",
     },
     "uz": {
         "choose_language": (
@@ -245,7 +290,8 @@ TEXTS = {
             "💳 <b>Donat qilish</b> — @utofi'ni yulduzlar bilan qo'llash\n"
             "📊 <b>Statistika</b> — maqsad, top va so'nggi donatlar\n"
             "👤 <b>Mening donatlarim</b> — tarix va 24 soatlik qaytarish\n"
-            "🌐 <b>Til</b> — bot tilini o'zgartirish\n\n"
+            "🌐 <b>Til</b> — bot tilini o'zgartirish\n"
+            "📩 <b>Dasturchiga yozish</b> — savol yoki taklif yuborish\n\n"
             "💛 Dasturchi: @utofi"
         ),
         "adm_new_donation_title": "🎉 <b>Yangi donat #{id}</b>",
@@ -330,6 +376,48 @@ TEXTS = {
         "adm_setgoal_usage": "ℹ️ Foydalanish: <code>/setgoal &lt;son&gt;</code>",
         "adm_setgoal_positive": "⚠️ Maqsad noldan katta bo'lishi kerak.",
         "adm_refund_usage": "ℹ️ Foydalanish: <code>/refund &lt;id&gt;</code>",
+        "btn_contact": "📩 Dasturchiga yozish",
+        "contact_enter_message": (
+            "📩 Xabar yozing (matn, foto, ovozli xabar, video, "
+            "fayl yoki stiker) — men uni dasturchiga yetkazaman."
+        ),
+        "contact_cancel": "❌ Bekor qilish",
+        "contact_cancelled": "Bekor qilindi.",
+        "contact_sent_confirmation": (
+            "✅ Xabar dasturchiga yuborildi. Odatda javob bir kun ichida keladi."
+        ),
+        "contact_cooldown": (
+            "⏳ Keyingi xabarni yuborishdan oldin {seconds} soniya kuting."
+        ),
+        "contact_blocked": "🚫 Afsuski, siz bu funksiyadan foydalana olmaysiz.",
+        "contact_unsupported_type": (
+            "⚠️ Bu turdagi xabarlar qo'llab-quvvatlanmaydi. Iltimos, matn, "
+            "foto, ovozli xabar, video, fayl yoki stiker yuboring."
+        ),
+        "contact_header_admin_named": (
+            "📩 @{username} dan yangi xabar (id <code>{user_id}</code>)"
+        ),
+        "contact_header_admin_noname": (
+            "📩 Username'siz foydalanuvchidan yangi xabar "
+            "(id <code>{user_id}</code>)"
+        ),
+        "contact_btn_reply": "↩️ Javob berish",
+        "contact_btn_block": "🚫 Bloklash",
+        "contact_reply_enter": (
+            "✍️ Xabar yuboring (matn, foto, ovozli xabar, video, fayl yoki "
+            "stiker) — u foydalanuvchiga yetkaziladi."
+        ),
+        "contact_reply_sent": "✅ Javob foydalanuvchiga yuborildi.",
+        "contact_reply_failed": (
+            "⚠️ Foydalanuvchiga xabar yuborib bo'lmadi "
+            "(ehtimol, u botni bloklagan)."
+        ),
+        "contact_header_user_reply": "💬 Dasturchidan xabar:",
+        "contact_blocked_notice": "🚫 Foydalanuvchi bloklangan",
+        "contact_block_done": "Foydalanuvchi bloklandi.",
+        "adm_unblock_usage": "ℹ️ Foydalanish: <code>/unblock &lt;user_id&gt;</code>",
+        "adm_unblock_done": "✅ Foydalanuvchi <code>{user_id}</code> blokdan chiqarildi.",
+        "adm_unblock_not_found": "⚠️ id <code>{user_id}</code> bo'lgan foydalanuvchi topilmadi.",
     },
     "en": {
         "choose_language": (
@@ -411,7 +499,8 @@ TEXTS = {
             "💳 <b>Donate</b> — support @utofi with Telegram Stars\n"
             "📊 <b>Stats</b> — goal progress, top and recent donations\n"
             "👤 <b>My donations</b> — history and 24-hour refunds\n"
-            "🌐 <b>Language</b> — change the bot language\n\n"
+            "🌐 <b>Language</b> — change the bot language\n"
+            "📩 <b>Contact developer</b> — send a question or suggestion\n\n"
             "💛 Developer: @utofi"
         ),
         "adm_new_donation_title": "🎉 <b>New donation #{id}</b>",
@@ -496,6 +585,49 @@ TEXTS = {
         "adm_setgoal_usage": "ℹ️ Usage: <code>/setgoal &lt;number&gt;</code>",
         "adm_setgoal_positive": "⚠️ The goal must be greater than zero.",
         "adm_refund_usage": "ℹ️ Usage: <code>/refund &lt;id&gt;</code>",
+        "btn_contact": "📩 Contact developer",
+        "contact_enter_message": (
+            "📩 Send a message (text, photo, voice, video, document or "
+            "sticker) and I'll pass it on to the developer."
+        ),
+        "contact_cancel": "❌ Cancel",
+        "contact_cancelled": "Cancelled.",
+        "contact_sent_confirmation": (
+            "✅ Message sent to the developer. A reply usually comes "
+            "within a day."
+        ),
+        "contact_cooldown": (
+            "⏳ Please wait {seconds}s before sending another message."
+        ),
+        "contact_blocked": "🚫 Sorry, you can't use this feature.",
+        "contact_unsupported_type": (
+            "⚠️ This message type isn't supported. Please send text, "
+            "a photo, voice message, video, document or sticker."
+        ),
+        "contact_header_admin_named": (
+            "📩 New message from @{username} (id <code>{user_id}</code>)"
+        ),
+        "contact_header_admin_noname": (
+            "📩 New message from a user without a username "
+            "(id <code>{user_id}</code>)"
+        ),
+        "contact_btn_reply": "↩️ Reply",
+        "contact_btn_block": "🚫 Block",
+        "contact_reply_enter": (
+            "✍️ Send a message (text, photo, voice, video, document or "
+            "sticker) — it will be forwarded to the user."
+        ),
+        "contact_reply_sent": "✅ Reply sent to the user.",
+        "contact_reply_failed": (
+            "⚠️ Couldn't deliver the message to the user "
+            "(they may have blocked the bot)."
+        ),
+        "contact_header_user_reply": "💬 Message from the developer:",
+        "contact_blocked_notice": "🚫 User blocked",
+        "contact_block_done": "User blocked.",
+        "adm_unblock_usage": "ℹ️ Usage: <code>/unblock &lt;user_id&gt;</code>",
+        "adm_unblock_done": "✅ User <code>{user_id}</code> unblocked.",
+        "adm_unblock_not_found": "⚠️ No user with id <code>{user_id}</code> found.",
     },
 }
 

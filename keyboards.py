@@ -33,6 +33,7 @@ def main_menu_keyboard(lang, is_admin=False):
         ],
         [
             KeyboardButton(text=get_text(lang, "btn_help")),
+            KeyboardButton(text=get_text(lang, "btn_contact")),
         ],
     ]
     if is_admin:
@@ -156,6 +157,49 @@ def admin_refund_keyboard(lang, donation_id):
             InlineKeyboardButton(
                 text=get_text(lang, "adm_btn_refund_donation"),
                 callback_data="admin_refund:" + str(donation_id),
+            ),
+        ],
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+
+def contact_admin_notify_keyboard(lang, user_id):
+    """Кнопки Ответить/Заблокировать под уведомлением админа о новом сообщении."""
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text=get_text(lang, "contact_btn_reply"),
+                callback_data="contact:reply:" + str(user_id),
+            ),
+            InlineKeyboardButton(
+                text=get_text(lang, "contact_btn_block"),
+                callback_data="contact:block:" + str(user_id),
+            ),
+        ],
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+
+def contact_user_cancel_keyboard(lang):
+    """Кнопка отмены на шаге ввода сообщения пользователем."""
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text=get_text(lang, "contact_cancel"),
+                callback_data="contact:cancel",
+            ),
+        ],
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+
+def contact_reply_cancel_keyboard(lang):
+    """Кнопка отмены на шаге ввода ответа админом."""
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text=get_text(lang, "contact_cancel"),
+                callback_data="contact:reply_cancel",
             ),
         ],
     ]

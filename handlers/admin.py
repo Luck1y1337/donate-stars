@@ -546,6 +546,112 @@ async def process_admin_search(message: Message, state: FSMContext):
     )
 
 
+@router.callback_query(F.data.startswith("contact:reply:"))
+async def callback_contact_reply(callback: CallbackQuery, state: FSMContext):
+    """Начинает ввод ответа админом на сообщение конкретного пользователя."""
+    lang = await resolve_lang(callback.from_user.id)
+    target_user_id = int(callback.data.split(":")[2])
+    await state.set_state(AdminStates.waiting_reply)
+    await state.update_data(reply_to_user_id=target_user_id)
+    await callback.message.answer(
+        get_text(lang, "contact_reply_enter"),
+        reply_markup=keyboards.contact_reply_cancel_keyboard(lang),
+    )
+    await callback.answer()
+
+
+@router.callback_query(F.data.startswith("contact:block:"))
+async def callback_contact_block(callback: CallbackQuery):
+    """Блокирует пользователя для функции обратной связи."""
+    lang = await resolve_lang(callback.from_user.id)
+    target_user_id = int(callback.data.split(":")[2])
+    await database.set_user_blocked(target_user_id, 1)
+
+    notice = get_text(lang, "contact_blocked_notice")
+    if callback.message.text is not None:
+        await callback.message.edit_text(
+            callback.message.text + "\n\n" + notice, reply_markup=None
+        )
+    elif callback.message.caption is not None:
+        await callback.message.edit_caption(
+            caption=callback.message.caption + "\n\n" + notice,
+            reply_markup=None,
+        )
+    else:
+        await callback.message.edit_reply_markup(reply_markup=None)
+        await callback.message.answer(notice)
+
+    await callback.answer(get_text(lang, "contact_block_done"))
+
+
+@router.callback_query(F.data == "contact:reply_cancel")
+async def callback_contact_reply_cancel(callback: CallbackQuery, state: FSMContext):
+    """Отменяет ввод ответа админом."""
+    lang = await resolve_lang(callback.from_user.id)
+    await state.clear()
+    await callback.message.edit_text(get_text(lang, "contact_cancelled"))
+    await callback.answer()
+
+
+@router.message(AdminStates.waiting_reply,
+                F.content_type.in_(
+                    {"text", "photo", "voice", "video", "document", "sticker"}
+                ))
+async def process_admin_reply(message: Message, state: FSMContext):
+    """Принимает ответ админа и пересылает его пользователю."""
+    lang = await resolve_lang(message.from_user.id)
+    data = await state.get_data()
+    target_user_id = data.get("reply_to_user_id")
+    await state.clear()
+
+    header = get_text(lang, "contact_header_user_reply")
+    try:
+        await message.bot.send_message(target_user_id, header)
+        await message.copy_to(target_user_id)
+    except Exception:
+        await message.answer(get_text(lang, "contact_reply_failed"))
+        return
+
+    await database.add_contact_message(
+        target_user_id,
+        "to_user",
+        message.content_type,
+        message.chat.id,
+        message.message_id,
+    )
+    await message.answer(get_text(lang, "contact_reply_sent"))
+
+
+@router.message(AdminStates.waiting_reply)
+async def process_admin_reply_unsupported(message: Message):
+    """Отклоняет неподдерживаемые типы сообщений в шаге ответа админа."""
+    lang = await resolve_lang(message.from_user.id)
+    await message.answer(get_text(lang, "contact_unsupported_type"))
+
+
+@router.message(Command("unblock"))
+async def cmd_admin_unblock(message: Message, command: CommandObject):
+    """Разблокирует пользователя по user_id для функции обратной связи."""
+    lang = await resolve_lang(message.from_user.id)
+
+    if command.args is None or not command.args.strip().isdigit():
+        await message.answer(get_text(lang, "adm_unblock_usage"))
+        return
+
+    target_user_id = int(command.args.strip())
+    user_row = await database.get_user(target_user_id)
+    if user_row is None:
+        await message.answer(
+            get_text(lang, "adm_unblock_not_found", user_id=target_user_id)
+        )
+        return
+
+    await database.set_user_blocked(target_user_id, 0)
+    await message.answer(
+        get_text(lang, "adm_unblock_done", user_id=target_user_id)
+    )
+
+
 @router.message(Command("setgoal"))
 async def cmd_setgoal(message: Message, command: CommandObject):
     """Устанавливает новую цель сбора."""

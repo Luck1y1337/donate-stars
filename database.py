@@ -13,6 +13,24 @@ async def init_db():
             "user_id INTEGER PRIMARY KEY, "
             "username TEXT, "
             "lang TEXT, "
+            "created_at INTEGER, "
+            "is_blocked INTEGER DEFAULT 0)"
+        )
+        try:
+            await db.execute(
+                "ALTER TABLE users ADD COLUMN is_blocked INTEGER DEFAULT 0"
+            )
+            await db.commit()
+        except Exception:
+            pass
+        await db.execute(
+            "CREATE TABLE IF NOT EXISTS contact_messages ("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "user_id INTEGER, "
+            "direction TEXT, "
+            "content_type TEXT, "
+            "from_chat_id INTEGER, "
+            "message_id INTEGER, "
             "created_at INTEGER)"
         )
         await db.execute(
@@ -296,6 +314,59 @@ async def find_donations(query):
             )
         rows = await cursor.fetchall()
         return rows
+
+
+async def is_user_blocked(user_id):
+    """Проверяет, заблокирован ли пользователь для функции обратной связи."""
+    async with aiosqlite.connect(DB_PATH) as db:
+        cursor = await db.execute(
+            "SELECT is_blocked FROM users WHERE user_id = ?", (user_id,)
+        )
+        row = await cursor.fetchone()
+        if row is None:
+            return False
+        if row[0] == 1:
+            return True
+        return False
+
+
+async def set_user_blocked(user_id, is_blocked):
+    """Устанавливает флаг блокировки пользователя (1 или 0)."""
+    async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute(
+            "UPDATE users SET is_blocked = ? WHERE user_id = ?",
+            (is_blocked, user_id),
+        )
+        await db.commit()
+
+
+async def add_contact_message(user_id, direction, content_type, from_chat_id,
+                              message_id):
+    """Логирует одно сообщение в переписке пользователь-админ."""
+    now = int(time.time())
+    async with aiosqlite.connect(DB_PATH) as db:
+        cursor = await db.execute(
+            "INSERT INTO contact_messages "
+            "(user_id, direction, content_type, from_chat_id, message_id, created_at) "
+            "VALUES (?, ?, ?, ?, ?, ?)",
+            (user_id, direction, content_type, from_chat_id, message_id, now),
+        )
+        await db.commit()
+        return cursor.lastrowid
+
+
+async def get_last_contact_message_time(user_id, direction):
+    """Возвращает created_at последнего сообщения пользователя в заданном направлении или None."""
+    async with aiosqlite.connect(DB_PATH) as db:
+        cursor = await db.execute(
+            "SELECT created_at FROM contact_messages "
+            "WHERE user_id = ? AND direction = ? ORDER BY id DESC LIMIT 1",
+            (user_id, direction),
+        )
+        row = await cursor.fetchone()
+        if row is None:
+            return None
+        return row[0]
 
 
 async def get_setting(key):
