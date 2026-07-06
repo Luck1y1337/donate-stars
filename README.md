@@ -40,6 +40,7 @@ Bot username: **[@luck1y_support_bot](https://t.me/luck1y_support_bot)** · Deve
 - 📊 **Public statistics** — goal progress, top-5 donors (🥇🥈🥉) and the latest donations.
 - 👤 **Donor profile** — personal donation history and self-service refunds within 24 hours.
 - ↩️ **Refunds** — donors can refund within 24 h; the admin can refund any donation at any time.
+- 📩 **Contact the developer** — users can send text, photos, voice notes, video, documents or stickers straight to the admin (no native "forwarded" badge), with a per-message cooldown and an admin Block/Reply button to stop spam.
 - 🌐 **Three languages** — Russian, Uzbek and English, switchable at any moment.
 - ⚙️ **Full admin panel** (see below) — stats, goal management, donation browser, broadcast, CSV export and search.
 - 🎨 **Beautiful UI** — HTML formatting (bold/italic), tasteful emoji, inline navigation with “Back” on every step.
@@ -60,6 +61,7 @@ The **⚙️ Admin** button appears in the bottom menu **only** for the account 
 | 🔍 **Search** | Find donations by `user_id` or `username`. |
 | 📢 **Broadcast** | Send a text message to all bot users, with a confirmation step and a delivery report. |
 | 📤 **Export CSV** | Download all donations as a single CSV file (opens cleanly in Excel). |
+| 📩 **Contact inbox** | Every incoming message from a user arrives with inline **Reply** / **Block** buttons — no separate screen needed. |
 
 ---
 
@@ -182,6 +184,7 @@ Stars-Donate/
 │   ├── stats.py           # public statistics & goal bar
 │   ├── profile.py         # my donations
 │   ├── refund.py          # donor-side refunds
+│   ├── contact.py         # message relay between users and the admin
 │   └── admin.py           # full admin panel
 ├── Dockerfile             # used by Railway to build the bot
 ├── railway.json           # Railway deploy config (start command, restarts)
@@ -204,6 +207,7 @@ Stars-Donate/
 | `/admin` | admin | open the admin panel |
 | `/setgoal <n>` | admin | set a new fundraising goal |
 | `/refund <id>` | admin | refund any donation by id, no time limit |
+| `/unblock <user_id>` | admin | restore a user's access to the contact feature |
 
 ---
 
@@ -223,6 +227,7 @@ When progress hits 100 %:
 - `.env`, `bot.db` and `venv/` are git-ignored — never commit your token.
 - User-provided content (names, donation messages, search queries) is HTML-escaped before rendering.
 - Admin actions are gated by a router-level `ADMIN_ID` filter; non-admins can’t reach the panel.
+- The contact relay uses `copy_to` (not `forward`) so it never leaks the sender's chat metadata, and is rate-limited with a per-user cooldown plus an admin-controlled block flag to prevent spam.
 
 ---
 
