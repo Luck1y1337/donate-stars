@@ -7,6 +7,7 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
 import database
+import scheduler
 from config import BOT_TOKEN
 from handlers import admin, contact, donate, profile, refund, start, stats
 
@@ -40,6 +41,8 @@ async def main():
     dp.include_router(stats.router)
     dp.include_router(profile.router)
     dp.include_router(refund.router)
+
+    scheduler.start_scheduler(bot)
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)

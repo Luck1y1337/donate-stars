@@ -1,15 +1,19 @@
 import asyncio
 import csv
 import io
+import os
+import shutil
+import zipfile
 from datetime import datetime
 
-from aiogram import F, Router, html
+from aiogram import Bot, F, Router, html
 from aiogram.filters import Command, CommandObject
 from aiogram.fsm.context import FSMContext
 from aiogram.types import BufferedInputFile, CallbackQuery, Message
 
 import database
 import keyboards
+from backup import perform_backup
 from config import ADMIN_ID
 from locales import get_all_translations, get_text
 from states import AdminStates
@@ -20,6 +24,8 @@ router.message.filter(F.from_user.id == ADMIN_ID)
 router.callback_query.filter(F.from_user.id == ADMIN_ID)
 
 DONATIONS_PAGE_SIZE = 8
+# Куда стейджим загруженный бэкап (уже как .db) до подтверждения восстановления.
+RESTORE_READY = "cache/backup/restore_ready.db"
 
 
 async def resolve_lang(user_id):
@@ -691,4 +697,146 @@ async def callback_admin_refund(callback: CallbackQuery):
     donation_id = int(callback.data.split(":")[1])
     result = await do_admin_refund(callback.bot, lang, donation_id)
     await callback.message.answer(result)
+    await callback.answer()
+
+
+# ---------------------------------------------------------------------------
+# Бэкап / восстановление базы (только для владельца)
+# ---------------------------------------------------------------------------
+
+
+@router.callback_query(F.data == "adm:backup_menu")
+async def callback_admin_backup_menu(callback: CallbackQuery):
+    """Показывает меню бэкапа и восстановления."""
+    await callback.message.edit_text(
+        "🗄 <b>Бэкап / восстановление</b>\n━━━━━━━━━━━━━━\n"
+        "📦 Создать — снимет консистентную копию базы и пришлёт zip.\n"
+        "♻️ Восстановить — заменит базу содержимым присланного файла.",
+        reply_markup=keyboards.admin_backup_keyboard(),
+    )
+    await callback.answer()
+
+
+@router.message(Command("backup"))
+async def cmd_backup(message: Message):
+    """Делает бэкап сейчас (то же, что ночная задача)."""
+    await message.answer("📦 Создаю бэкап…")
+    await perform_backup(message.bot)
+
+
+@router.callback_query(F.data == "adm:backup_now")
+async def callback_admin_backup_now(callback: CallbackQuery):
+    """Делает бэкап сейчас и присылает его админу."""
+    await callback.answer("Готовлю бэкап…")
+    await perform_backup(callback.bot)
+
+
+async def _stage_and_confirm_restore(chat: Message, bot: Bot, doc) -> None:
+    """Скачивает бэкап, распаковывает zip в .db и просит подтвердить восстановление.
+
+    Общий путь для команды /restore (ответ на файл) и загрузки через панель.
+    """
+    os.makedirs("cache/backup", exist_ok=True)
+    upload = "cache/backup/restore_upload.bin"
+    try:
+        await bot.download(doc, destination=upload)
+        file_name = doc.file_name or ""
+        # Приводим загрузку к сырому .db (распаковываем, если это архив).
+        if file_name.lower().endswith(".zip") or zipfile.is_zipfile(upload):
+            with zipfile.ZipFile(upload) as zf:
+                db_names = [n for n in zf.namelist() if n.endswith(".db")]
+                if len(db_names) == 0:
+                    await chat.answer("❌ В архиве нет файла .db.")
+                    return
+                with zf.open(db_names[0]) as src, open(RESTORE_READY, "wb") as out:
+                    shutil.copyfileobj(src, out)
+        else:
+            shutil.copy(upload, RESTORE_READY)
+    except Exception as error:
+        await chat.answer("❌ Не удалось прочитать файл: " + str(error))
+        return
+
+    await chat.answer(
+        "⚠️ <b>Восстановление базы</b>\n━━━━━━━━━━━━━━\n"
+        "Текущие данные будут <b>полностью заменены</b> содержимым этого файла. "
+        "Действие необратимо. Продолжить?",
+        reply_markup=keyboards.admin_restore_confirm_keyboard(),
+    )
+
+
+@router.message(Command("restore"))
+async def cmd_restore(message: Message):
+    """Восстанавливает базу из бэкапа (ответить командой на файл .zip или .db)."""
+    doc = None
+    if message.reply_to_message is not None:
+        doc = message.reply_to_message.document
+    if doc is None:
+        await message.answer(
+            "Чтобы восстановить базу, <b>ответь этой командой на файл бэкапа</b> "
+            "(stars_backup.zip или .db) — напиши <code>/restore</code> в ответ на "
+            "сообщение с файлом."
+        )
+        return
+    await _stage_and_confirm_restore(message, message.bot, doc)
+
+
+@router.callback_query(F.data == "adm:restore_start")
+async def callback_admin_restore_start(callback: CallbackQuery,
+                                       state: FSMContext):
+    """Просит прислать файл бэкапа для восстановления."""
+    await state.set_state(AdminStates.waiting_restore_file)
+    await callback.message.answer(
+        "♻️ Пришли <b>файл бэкапа</b> (stars_backup.zip или .db) следующим "
+        "сообщением.\nЧтобы отменить — /admin."
+    )
+    await callback.answer()
+
+
+@router.message(AdminStates.waiting_restore_file, F.document)
+async def process_restore_file(message: Message, state: FSMContext):
+    """Скачивает присланный файл и просит подтвердить восстановление."""
+    await state.clear()
+    await _stage_and_confirm_restore(message, message.bot, message.document)
+
+
+@router.callback_query(F.data == "adm:restore_confirm")
+async def callback_admin_restore_confirm(callback: CallbackQuery):
+    """Заменяет базу присланным файлом через online backup API."""
+    if not os.path.exists(RESTORE_READY):
+        await callback.message.edit_text(
+            "❌ Файл для восстановления не найден — начни заново."
+        )
+        await callback.answer()
+        return
+
+    try:
+        await database.restore_from(RESTORE_READY)
+    except Exception as error:
+        await callback.message.edit_text(
+            "❌ Восстановление не удалось: " + str(error)
+        )
+        await callback.answer()
+        return
+
+    try:
+        os.remove(RESTORE_READY)
+    except OSError:
+        pass
+
+    count = await database.count_users()
+    await callback.message.edit_text(
+        "✅ База восстановлена. Пользователей в базе: <b>" + str(count) + "</b>."
+    )
+    await callback.answer()
+
+
+@router.callback_query(F.data == "adm:restore_cancel")
+async def callback_admin_restore_cancel(callback: CallbackQuery):
+    """Отменяет восстановление и убирает временный файл."""
+    if os.path.exists(RESTORE_READY):
+        try:
+            os.remove(RESTORE_READY)
+        except OSError:
+            pass
+    await callback.message.edit_text("Восстановление отменено.")
     await callback.answer()

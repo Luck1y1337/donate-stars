@@ -4,5 +4,6 @@ __pycache__/
 .env
 bot.db
 *.db
+cache/
 .idea/
 .vscode/

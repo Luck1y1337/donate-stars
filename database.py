@@ -390,3 +390,43 @@ async def set_setting(key, value):
             (key, value),
         )
         await db.commit()
+
+
+# ---------------------------------------------------------------------------
+# Бэкап / восстановление
+# ---------------------------------------------------------------------------
+
+
+async def backup_to(dest_path):
+    """Пишет консистентный снимок живой БД в dest_path через online backup API.
+
+    Снимок атомарный даже во время работы бота — в отличие от сырого
+    копирования файла, которое может дать «рваную» копию. dest_path не должен
+    существовать заранее.
+    """
+    async with aiosqlite.connect(DB_PATH) as src:
+        dest = await aiosqlite.connect(dest_path)
+        try:
+            await src.backup(dest)
+        finally:
+            await dest.close()
+
+
+async def restore_from(src_path):
+    """Заменяет содержимое живой БД содержимым src_path через online backup API.
+
+    Проверяет, что src — валидная база этого бота (есть таблица users).
+    Бросает ValueError, если файл не похож на базу.
+    """
+    async with aiosqlite.connect(src_path) as src:
+        async with src.execute(
+            "SELECT name FROM sqlite_master "
+            "WHERE type='table' AND name='users'"
+        ) as cursor:
+            if await cursor.fetchone() is None:
+                raise ValueError(
+                    "Файл не похож на базу этого бота (нет таблицы users)."
+                )
+        async with aiosqlite.connect(DB_PATH) as live:
+            await src.backup(live)
+            await live.commit()

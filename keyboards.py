@@ -241,10 +241,52 @@ def admin_panel_keyboard(lang):
         ],
         [
             InlineKeyboardButton(
+                text="🗄 Бэкап / восстановление",
+                callback_data="adm:backup_menu",
+            ),
+        ],
+        [
+            InlineKeyboardButton(
                 text=get_text(lang, "adm_btn_close"),
                 callback_data="adm:close",
             ),
         ],
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+
+def admin_backup_keyboard():
+    """Меню бэкапа и восстановления базы (только для владельца)."""
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text="📦 Создать бэкап", callback_data="adm:backup_now"
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="♻️ Восстановить", callback_data="adm:restore_start"
+            ),
+        ],
+        [
+            InlineKeyboardButton(text="« Назад", callback_data="adm:home"),
+        ],
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+
+def admin_restore_confirm_keyboard():
+    """Подтверждение восстановления базы из файла."""
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text="✅ Да, восстановить",
+                callback_data="adm:restore_confirm",
+            ),
+            InlineKeyboardButton(
+                text="❌ Отмена", callback_data="adm:restore_cancel"
+            ),
+        ]
     ]
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 

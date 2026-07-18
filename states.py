@@ -11,6 +11,7 @@ class AdminStates(StatesGroup):
     waiting_broadcast = State()
     waiting_search = State()
     waiting_reply = State()
+    waiting_restore_file = State()
 
 
 class ContactStates(StatesGroup):
