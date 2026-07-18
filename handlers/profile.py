@@ -2,6 +2,7 @@ import time
 from datetime import datetime
 
 from aiogram import F, Router, html
+from aiogram.filters import Command
 from aiogram.types import Message
 
 import database
@@ -26,15 +27,16 @@ def format_date(timestamp):
     return dt.strftime("%d.%m.%Y %H:%M")
 
 
-@router.message(F.text.in_(get_all_translations("btn_profile")))
-async def show_profile(message: Message):
-    """Показывает донаты пользователя и кнопку возврата, если он доступен."""
-    user_id = message.from_user.id
+async def open_profile(target, user_id):
+    """Показывает донаты пользователя и кнопку возврата, если он доступен.
+
+    Общее ядро для команды и инлайн-хаба.
+    """
     lang = await resolve_lang(user_id)
 
     donations = await database.get_user_donations(user_id, 5)
     if len(donations) == 0:
-        await message.answer(
+        await target.answer(
             get_text(lang, "profile_title")
             + "\n\n"
             + get_text(lang, "profile_no_donations")
@@ -67,9 +69,16 @@ async def show_profile(message: Message):
             refund_available = True
 
     if refund_available:
-        await message.answer(
+        await target.answer(
             text,
             reply_markup=keyboards.request_refund_keyboard(lang),
         )
     else:
-        await message.answer(text)
+        await target.answer(text)
+
+
+@router.message(Command("profile"))
+@router.message(F.text.in_(get_all_translations("btn_profile")))
+async def show_profile(message: Message):
+    """Команда /profile и кнопка меню — показывают мои донаты."""
+    await open_profile(message, message.from_user.id)

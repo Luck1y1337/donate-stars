@@ -75,11 +75,12 @@ async def build_goal_block(lang):
     return progress_text + "\n" + bar + " " + str(percent) + "%"
 
 
-@router.message(Command("stats"))
-@router.message(F.text.in_(get_all_translations("btn_stats")))
-async def show_stats(message: Message):
-    """Показывает прогресс цели, топ донатеров и последние донаты."""
-    lang = await resolve_lang(message.from_user.id)
+async def open_stats(target, user_id):
+    """Показывает прогресс цели, топ донатеров и последние донаты.
+
+    Общее ядро для команды и инлайн-хаба.
+    """
+    lang = await resolve_lang(user_id)
 
     goal_block = await build_goal_block(lang)
     text = get_text(lang, "stats_title") + "\n\n" + goal_block
@@ -87,7 +88,7 @@ async def show_stats(message: Message):
     top_donors = await database.get_top_donors(5)
     if len(top_donors) == 0:
         text = text + "\n\n" + get_text(lang, "no_donations")
-        await message.answer(text)
+        await target.answer(text)
         return
 
     text = text + "\n\n" + get_text(lang, "top_donors") + "\n"
@@ -128,4 +129,11 @@ async def show_stats(message: Message):
                 line = line + "\n💬 <i>" + html.quote(donation["message"]) + "</i>"
             text = text + line + "\n"
 
-    await message.answer(text)
+    await target.answer(text)
+
+
+@router.message(Command("stats"))
+@router.message(F.text.in_(get_all_translations("btn_stats")))
+async def show_stats(message: Message):
+    """Команда /stats и кнопка меню — показывают статистику."""
+    await open_stats(message, message.from_user.id)

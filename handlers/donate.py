@@ -50,16 +50,21 @@ async def send_donation_invoice(bot, chat_id, lang, amount):
     )
 
 
-@router.message(Command("donate"))
-@router.message(F.text.in_(get_all_translations("btn_donate")))
-async def button_donate(message: Message, state: FSMContext):
-    """Открывает выбор суммы доната."""
+async def open_donate(target, user_id, state):
+    """Открывает выбор суммы доната. Общее ядро для команды и инлайн-хаба."""
     await state.clear()
-    lang = await resolve_lang(message.from_user.id)
-    await message.answer(
+    lang = await resolve_lang(user_id)
+    await target.answer(
         get_text(lang, "choose_amount"),
         reply_markup=keyboards.amounts_keyboard(lang),
     )
+
+
+@router.message(Command("donate"))
+@router.message(F.text.in_(get_all_translations("btn_donate")))
+async def button_donate(message: Message, state: FSMContext):
+    """Команда /donate и кнопка меню — открывают выбор суммы."""
+    await open_donate(message, message.from_user.id, state)
 
 
 @router.callback_query(F.data == "donate:open")

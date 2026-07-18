@@ -1,6 +1,7 @@
 import time
 
 from aiogram import F, Router, html
+from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
@@ -32,21 +33,30 @@ async def resolve_lang(user_id):
     return lang
 
 
-@router.message(F.text.in_(get_all_translations("btn_contact")))
-async def button_contact(message: Message, state: FSMContext):
-    """Начинает диалог отправки сообщения разработчику."""
-    lang = await resolve_lang(message.from_user.id)
+async def open_contact(target, user_id, state):
+    """Начинает диалог отправки сообщения разработчику.
 
-    is_blocked = await database.is_user_blocked(message.from_user.id)
+    Общее ядро для команды и инлайн-хаба.
+    """
+    lang = await resolve_lang(user_id)
+
+    is_blocked = await database.is_user_blocked(user_id)
     if is_blocked:
-        await message.answer(get_text(lang, "contact_blocked"))
+        await target.answer(get_text(lang, "contact_blocked"))
         return
 
     await state.set_state(ContactStates.waiting_message)
-    await message.answer(
+    await target.answer(
         get_text(lang, "contact_enter_message"),
         reply_markup=keyboards.contact_user_cancel_keyboard(lang),
     )
+
+
+@router.message(Command("contact"))
+@router.message(F.text.in_(get_all_translations("btn_contact")))
+async def button_contact(message: Message, state: FSMContext):
+    """Команда /contact и кнопка меню — начинают сообщение разработчику."""
+    await open_contact(message, message.from_user.id, state)
 
 
 @router.callback_query(F.data == "contact:cancel")

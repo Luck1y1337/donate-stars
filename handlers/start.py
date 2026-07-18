@@ -47,6 +47,10 @@ async def cmd_start(message: Message):
                 lang, is_admin(user_id)
             ),
         )
+        await message.answer(
+            get_text(lang, "hub_header"),
+            reply_markup=keyboards.main_hub_keyboard(lang, is_admin(user_id)),
+        )
 
 
 @router.callback_query(F.data.startswith("lang:"))
@@ -65,25 +69,38 @@ async def callback_choose_language(callback: CallbackQuery):
         get_text(lang, "welcome", name=name),
         reply_markup=keyboards.main_menu_keyboard(lang, is_admin(user_id)),
     )
+    await callback.message.answer(
+        get_text(lang, "hub_header"),
+        reply_markup=keyboards.main_hub_keyboard(lang, is_admin(user_id)),
+    )
     await callback.answer()
 
 
-@router.message(F.text.in_(get_all_translations("btn_language")))
-async def button_language(message: Message):
-    """Показывает выбор языка по кнопке меню."""
-    lang = await resolve_lang(message.from_user.id)
-    await message.answer(
-        get_text(lang, "choose_language"),
+async def open_language(target, user_id):
+    """Показывает выбор языка. Общее ядро для команды и инлайн-хаба."""
+    await target.answer(
+        get_text(await resolve_lang(user_id), "choose_language"),
         reply_markup=keyboards.language_keyboard(),
     )
+
+
+async def open_help(target, user_id):
+    """Показывает справку. Общее ядро для команды и инлайн-хаба."""
+    await target.answer(get_text(await resolve_lang(user_id), "help_text"))
+
+
+@router.message(Command("language"))
+@router.message(F.text.in_(get_all_translations("btn_language")))
+async def button_language(message: Message):
+    """Команда /language и кнопка меню — открывают выбор языка."""
+    await open_language(message, message.from_user.id)
 
 
 @router.message(Command("help"))
 @router.message(F.text.in_(get_all_translations("btn_help")))
 async def button_help(message: Message):
-    """Показывает справку по разделам меню."""
-    lang = await resolve_lang(message.from_user.id)
-    await message.answer(get_text(lang, "help_text"))
+    """Команда /help и кнопка меню — показывают справку."""
+    await open_help(message, message.from_user.id)
 
 
 @router.callback_query(F.data == "menu:main")

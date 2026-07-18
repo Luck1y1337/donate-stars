@@ -21,24 +21,55 @@ def language_keyboard():
 
 
 def main_menu_keyboard(lang, is_admin=False):
-    """Постоянное reply-меню внизу экрана."""
+    """Постоянная reply-кнопка-лаунчер «☰ Меню», открывающая инлайн-хаб."""
+    buttons = [[KeyboardButton(text=get_text(lang, "btn_menu"))]]
+    return ReplyKeyboardMarkup(
+        keyboard=buttons, resize_keyboard=True, is_persistent=True
+    )
+
+
+def main_hub_keyboard(lang, is_admin=False):
+    """Инлайн-хаб со всеми разделами бота (все команды — кнопками)."""
     buttons = [
         [
-            KeyboardButton(text=get_text(lang, "btn_donate")),
-            KeyboardButton(text=get_text(lang, "btn_stats")),
+            InlineKeyboardButton(
+                text=get_text(lang, "btn_donate"),
+                callback_data="menu:donate",
+            ),
+            InlineKeyboardButton(
+                text=get_text(lang, "btn_stats"), callback_data="menu:stats"
+            ),
         ],
         [
-            KeyboardButton(text=get_text(lang, "btn_profile")),
-            KeyboardButton(text=get_text(lang, "btn_language")),
+            InlineKeyboardButton(
+                text=get_text(lang, "btn_profile"),
+                callback_data="menu:profile",
+            ),
+            InlineKeyboardButton(
+                text=get_text(lang, "btn_contact"),
+                callback_data="menu:contact",
+            ),
         ],
         [
-            KeyboardButton(text=get_text(lang, "btn_help")),
-            KeyboardButton(text=get_text(lang, "btn_contact")),
+            InlineKeyboardButton(
+                text=get_text(lang, "btn_help"), callback_data="menu:help"
+            ),
+            InlineKeyboardButton(
+                text=get_text(lang, "btn_language"),
+                callback_data="menu:language",
+            ),
         ],
     ]
     if is_admin:
-        buttons.append([KeyboardButton(text=get_text(lang, "btn_admin"))])
-    return ReplyKeyboardMarkup(keyboard=buttons, resize_keyboard=True)
+        buttons.append(
+            [
+                InlineKeyboardButton(
+                    text=get_text(lang, "btn_admin"),
+                    callback_data="menu:admin",
+                )
+            ]
+        )
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
 def amounts_keyboard(lang):

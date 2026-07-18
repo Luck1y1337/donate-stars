@@ -8,8 +8,18 @@ from aiogram.enums import ParseMode
 
 import database
 import scheduler
+from bot_setup import setup_bot_profile
 from config import BOT_TOKEN
-from handlers import admin, contact, donate, profile, refund, start, stats
+from handlers import (
+    admin,
+    contact,
+    donate,
+    menu,
+    profile,
+    refund,
+    start,
+    stats,
+)
 
 
 async def main():
@@ -36,6 +46,7 @@ async def main():
 
     dp.include_router(admin.router)
     dp.include_router(start.router)
+    dp.include_router(menu.router)
     dp.include_router(donate.router)
     dp.include_router(contact.router)
     dp.include_router(stats.router)
@@ -45,6 +56,7 @@ async def main():
     scheduler.start_scheduler(bot)
 
     await bot.delete_webhook(drop_pending_updates=True)
+    await setup_bot_profile(bot)
     await dp.start_polling(bot)
 
 

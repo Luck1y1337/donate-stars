@@ -11,6 +11,23 @@ TEXTS = {
             "Выберите действие в меню ниже 👇"
         ),
         "main_menu": "🏠 <b>Главное меню</b>",
+        "btn_menu": "☰ Меню",
+        "hub_header": (
+            "🏠 <b>Главное меню</b>\n"
+            "━━━━━━━━━━━━━━\n"
+            "Выбери раздел 👇"
+        ),
+        "bot_description": (
+            "💛 Бот поддержки <b>@utofi</b> — поддержи разработчика звёздами "
+            "Telegram ⭐️\n\n"
+            "Пресеты и своя сумма, сообщение к донату, цель сбора с прогрессом, "
+            "топ донатеров и возврат в течение 24 часов. Языки: RU / UZ / EN.\n\n"
+            "Нажми «Начать», чтобы выбрать язык."
+        ),
+        "bot_short_description": (
+            "Поддержи @utofi звёздами Telegram ⭐️. Цель, топ донатеров, "
+            "возвраты 24ч. RU/UZ/EN."
+        ),
         "btn_donate": "💳 Задонатить",
         "btn_stats": "📊 Статистика",
         "btn_profile": "👤 Мои донаты",
@@ -222,6 +239,23 @@ TEXTS = {
             "Quyidagi menyudan bo'limni tanlang 👇"
         ),
         "main_menu": "🏠 <b>Asosiy menyu</b>",
+        "btn_menu": "☰ Menyu",
+        "hub_header": (
+            "🏠 <b>Asosiy menyu</b>\n"
+            "━━━━━━━━━━━━━━\n"
+            "Bo'limni tanlang 👇"
+        ),
+        "bot_description": (
+            "💛 <b>@utofi</b> qo'llab-quvvatlash boti — dasturchini Telegram "
+            "yulduzlari bilan qo'llang ⭐️\n\n"
+            "Tayyor yoki o'z summangiz, donatga xabar, progressli maqsad, "
+            "top donatchilar va 24 soatlik qaytarish. Tillar: RU / UZ / EN.\n\n"
+            "Til tanlash uchun «Boshlash» ni bosing."
+        ),
+        "bot_short_description": (
+            "@utofi'ni Telegram yulduzlari bilan qo'llang ⭐️. Maqsad, top, "
+            "24s qaytarish."
+        ),
         "btn_donate": "💳 Donat qilish",
         "btn_stats": "📊 Statistika",
         "btn_profile": "👤 Mening donatlarim",
@@ -431,6 +465,24 @@ TEXTS = {
             "Pick an action from the menu below 👇"
         ),
         "main_menu": "🏠 <b>Main menu</b>",
+        "btn_menu": "☰ Menu",
+        "hub_header": (
+            "🏠 <b>Main menu</b>\n"
+            "━━━━━━━━━━━━━━\n"
+            "Pick a section 👇"
+        ),
+        "bot_description": (
+            "💛 The <b>@utofi</b> support bot — back the developer with "
+            "Telegram Stars ⭐️\n\n"
+            "Preset or custom amounts, an optional message, a fundraising goal "
+            "with a progress bar, a top-donors board and 24-hour refunds. "
+            "Languages: RU / UZ / EN.\n\n"
+            "Press “Start” to choose your language."
+        ),
+        "bot_short_description": (
+            "Support @utofi with Telegram Stars ⭐️. Goal, top donors, "
+            "24h refunds. RU/UZ/EN."
+        ),
         "btn_donate": "💳 Donate",
         "btn_stats": "📊 Stats",
         "btn_profile": "👤 My donations",
