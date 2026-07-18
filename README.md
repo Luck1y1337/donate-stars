@@ -43,6 +43,7 @@ Bot username: **[@luck1y_support_bot](https://t.me/luck1y_support_bot)** · Deve
 - 📩 **Contact the developer** — users can send text, photos, voice notes, video, documents or stickers straight to the admin (no native "forwarded" badge), with a per-message cooldown and an admin Block/Reply button to stop spam.
 - 🌐 **Three languages** — Russian, Uzbek and English, switchable at any moment.
 - ⚙️ **Full admin panel** (see below) — stats, goal management, donation browser, broadcast, CSV export and search.
+- 💾 **Automatic backups** — a consistent nightly DB snapshot is zipped and sent to the admin's DM; restore any backup right from chat (see below).
 - 🎨 **Beautiful UI** — HTML formatting (bold/italic), tasteful emoji, inline navigation with “Back” on every step.
 - 🚀 **Easy deployment** — Docker/Railway, or locally on Windows.
 
@@ -62,6 +63,31 @@ The **⚙️ Admin** button appears in the bottom menu **only** for the account 
 | 📢 **Broadcast** | Send a text message to all bot users, with a confirmation step and a delivery report. |
 | 📤 **Export CSV** | Download all donations as a single CSV file (opens cleanly in Excel). |
 | 📩 **Contact inbox** | Every incoming message from a user arrives with inline **Reply** / **Block** buttons — no separate screen needed. |
+| 🗄 **Backup / restore** | Create a DB backup on demand or restore from an uploaded file (see [Backups](#-backups)). |
+
+---
+
+## 💾 Backups
+
+The bot protects your data with **consistent snapshots** taken through SQLite's
+online backup API (`aiosqlite.backup()`) rather than a raw file copy — so a
+backup is safe to take while the bot is running and can never produce a torn or
+corrupt copy. Each snapshot is zipped and delivered to the admin's DM as a file.
+
+- **Automatic** — every day at **03:00** (server time) the bot sends a fresh
+  backup to `ADMIN_ID`, scheduled with APScheduler.
+- **On demand** — the `/backup` command or the **📦 Create backup** button in the
+  admin panel.
+- **Restore** — reply to the backup file with `/restore` (accepts
+  `stars_backup.zip` or a raw `.db`), or use the **♻️ Restore** button. Before
+  overwriting, the bot verifies the file is a real bot database (it must contain
+  the `users` table) and asks for confirmation — the current data is **fully
+  replaced**, which is irreversible. The replace also runs through the online
+  backup API.
+
+> With a Railway Volume mounted at `/data`, both `bot.db` and backups survive
+> redeploys; even if the volume is lost, the latest backup is always in the
+> admin's Telegram DM.
 
 ---
 
@@ -71,6 +97,7 @@ The **⚙️ Admin** button appears in the bottom menu **only** for the account 
 - **[aiogram 3.x](https://docs.aiogram.dev/)** — async Telegram Bot framework
 - **[aiosqlite](https://github.com/omnilib/aiosqlite)** — async SQLite (plain SQL, no ORM)
 - **[python-dotenv](https://github.com/theskumar/python-dotenv)** — environment configuration
+- **[APScheduler](https://apscheduler.readthedocs.io/)** — nightly automatic DB backups
 
 > Telegram Stars payments work **out of the box** — no payment provider, no `provider_token`, no bank setup.
 
@@ -172,9 +199,11 @@ docker run -d --env-file .env -v donate_data:/data donate-stars
 
 ```
 Stars-Donate/
-├── bot.py                 # entry point, polling, HTML parse mode
+├── bot.py                 # entry point, polling, scheduler start, HTML parse mode
 ├── config.py              # reads .env and constants
-├── database.py            # all SQL queries (aiosqlite)
+├── database.py            # all SQL queries (aiosqlite) + backup/restore helpers
+├── backup.py              # consistent DB snapshot → zip → send to admin
+├── scheduler.py           # APScheduler: nightly auto-backup at 03:00
 ├── locales.py             # ru / uz / en texts (HTML + emoji)
 ├── keyboards.py           # reply & inline keyboards
 ├── states.py              # FSM states (donation + admin flows)
@@ -208,6 +237,8 @@ Stars-Donate/
 | `/setgoal <n>` | admin | set a new fundraising goal |
 | `/refund <id>` | admin | refund any donation by id, no time limit |
 | `/unblock <user_id>` | admin | restore a user's access to the contact feature |
+| `/backup` | admin | create a DB backup now and receive it as a file |
+| `/restore` | admin | restore the DB — reply to a backup file with this command |
 
 ---
 
